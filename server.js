@@ -14,9 +14,9 @@ const PORT = process.env.PORT || 3000;
 // Enable CORS for frontend integration
 app.use(cors());
 
-// Set request size limits for Base64 photo uploads (max 10MB)
-app.use(express.json({ limit: '10mb' }));
-app.use(express.urlencoded({ limit: '10mb', extended: true }));
+// Set request size limits to 50MB to accommodate large Base64 high-resolution photo uploads
+app.use(express.json({ limit: '50mb' }));
+app.use(express.urlencoded({ limit: '50mb', extended: true }));
 
 // Database connection URL check
 if (!process.env.DATABASE_URL) {
@@ -247,7 +247,7 @@ app.delete('/api/market/:id', async (req, res) => {
 
 // Start Express Listener (for local development tests)
 app.listen(PORT, () => {
-  console.log(`Pasar Domba Backend server is running on http://localhost:${PORT}`);
+  console.log("Pasar Domba Backend server is running on http://localhost:" + PORT);
 });
 
 module.exports = app; // For serverless handlers
