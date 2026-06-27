@@ -1,0 +1,768 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html>
+<html b:css='false' b:js='true' html5='true' xmlns='http://www.w3.org/1999/xhtml' xmlns:b='http://www.google.com/2005/gml/b' xmlns:data='http://www.google.com/2005/gml/data' xmlns:expr='http://www.google.com/2005/gml/expr'>
+<head>
+  <meta charset='utf-8'/>
+  <meta content='width=device-width, initial-scale=1, shrink-to-fit=no' name='viewport'/>
+  <title>Pasar Domba Bagus Rejo Mulyo - Portal Marketplace Kelompok Ternak</title>
+
+  <!-- Google Fonts: Inter & Outfit -->
+  <link href='https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&amp;family=Outfit:wght@400;500;600;700;800&amp;display=swap' rel='stylesheet'/>
+  
+  <!-- Tailwind CSS CDN -->
+  <script src='https://cdn.tailwindcss.com'></script>
+  <script>
+    //<![CDATA[
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            forest: {
+              50: '#f4f7f5',
+              100: '#e3ebe6',
+              200: '#cbe0d3',
+              300: '#a3c3b0',
+              400: '#759e86',
+              500: '#547f68',
+              600: '#416551',
+              700: '#345142',
+              800: '#2b4237',
+              900: '#1b2d24',
+              950: '#101c16',
+            },
+            amberAccent: {
+              50: '#fffbeb',
+              100: '#fef3c7',
+              200: '#fde68a',
+              300: '#fcd34d',
+              400: '#fbbf24',
+              500: '#f59e0b',
+              600: '#d97706',
+              700: '#b45309',
+              800: '#92400e',
+              900: '#78350f',
+            }
+          }
+        }
+      }
+    }
+    //]]>
+  </script>
+
+  <!-- Blogger Skin CSS (Required by Blogger theme compiler) -->
+  <b:skin><![CDATA[
+  /* Blogger theme resets and structural skin content */
+  body {
+    margin: 0;
+    padding: 0;
+  }
+  ]]></b:skin>
+
+  <style type='text/css'>
+    /*<![CDATA[*/
+    body {
+      font-family: 'Inter', sans-serif;
+      background-color: #f4f7f5;
+    }
+    .font-outfit {
+      font-family: 'Outfit', sans-serif;
+    }
+    /* Custom scrollbars */
+    ::-webkit-scrollbar {
+      width: 8px;
+      height: 8px;
+    }
+    ::-webkit-scrollbar-track {
+      background: #f4f7f5;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #345142;
+      border-radius: 4px;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: #2b4237;
+    }
+    /* Smooth transitions and animations */
+    .fade-in {
+      animation: fadeIn 0.4s ease-out forwards;
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(8px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    /* Glowing pulse animation for splash page background */
+    @keyframes ambientGlow {
+      0%, 100% { opacity: 0.15; transform: scale(1); }
+      50% { opacity: 0.35; transform: scale(1.05); }
+    }
+    .animate-glow {
+      animation: ambientGlow 6s ease-in-out infinite;
+    }
+    /* Fade-in and Slide-up for Welcome text */
+    @keyframes slideUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .animate-slide-up {
+      animation: slideUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    }
+    /*]]>*/
+  </style>
+</head>
+<body class='bg-[#f4f7f5] text-gray-800 antialiased min-h-screen flex flex-col'>
+
+  <!-- Required Blogger layout section (compiles theme) -->
+  <div style='display: none;'>
+    <b:section id='main-blogger-layout' showaddelement='yes'>
+      <b:widget id='Header1' locked='true' title='Header' type='Header' version='1'>
+        <b:includable id='main'>
+          <!-- Empty layout widget to satisfy Blogger compilation schema -->
+        </b:includable>
+      </b:widget>
+    </b:section>
+  </div>
+
+  <!-- RICHLY ANIMATED WELCOME SCREEN (SPLASH PAGE) -->
+  <div id='welcome-screen' class='fixed inset-0 z-50 bg-gradient-to-br from-forest-950 via-forest-900 to-forest-950 flex flex-col items-center justify-center text-center p-4 sm:p-6 transition-all duration-500 ease-out'>
+    <!-- Background glowing ambient pulse -->
+    <div class='absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(163,195,176,0.15),transparent_60%)] pointer-events-none animate-glow'></div>
+    
+    <div class='relative z-10 animate-slide-up flex flex-col items-center w-full max-w-xl'>
+      <span class='text-6xl sm:text-7xl mb-6 filter drop-shadow-xl select-none'>🐑</span>
+      <h1 class='font-outfit text-3xl sm:text-5xl md:text-6xl font-black tracking-tight text-white mb-4 leading-tight drop-shadow-md select-none px-2'>
+        Pasar Domba Bagus Rejo Mulyo
+      </h1>
+      <p class='text-forest-200 text-xs sm:text-base md:text-lg font-medium mb-8 leading-relaxed select-none px-4'>
+        Portal Pemasaran Terbuka &amp; Terpercaya Kelompok Ternak Bagus Rejo Mulyo. Hubungi pemilik langsung via WhatsApp untuk pinangan hewan terbaik Anda.
+      </p>
+      
+      <!-- Entry Button with pulse, custom tap height (h-12), and scale interactions -->
+      <button onclick='enterApp()' class='font-outfit bg-amberAccent-500 hover:bg-amberAccent-600 active:scale-95 text-forest-950 font-extrabold text-base sm:text-lg w-11/12 sm:w-auto h-12 sm:px-8 rounded-2xl shadow-xl transition-all duration-300 animate-pulse transform hover:scale-105 flex items-center justify-center gap-3'>
+        <span>Buka Katalog Pasar Domba</span>
+        <span class='text-xl'>➔</span>
+      </button>
+    </div>
+  </div>
+
+  <!-- SPA Application Container -->
+  <div class='flex-grow flex flex-col' id='app'>
+    
+    <!-- Header Hero branding -->
+    <header class='bg-forest-900 text-white shadow-xl relative overflow-hidden'>
+      <div class='absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(84,127,104,0.25),transparent_60%)] pointer-events-none'></div>
+      <div class='max-w-7xl mx-auto px-4 py-8 sm:py-12 relative z-10'>
+        <div class='flex flex-col md:flex-row justify-between items-center gap-6'>
+          <div class='text-center md:text-left'>
+            <div class='flex items-center gap-3 mb-2 justify-center md:justify-start'>
+              <span class='text-4xl sm:text-5xl filter drop-shadow-md'>🐑</span>
+              <h1 class='font-outfit text-3xl sm:text-4xl md:text-5xl font-extrabold tracking-tight bg-gradient-to-r from-amberAccent-300 via-amberAccent-400 to-white bg-clip-text text-transparent'>
+                Pasar Domba Bagus Rejo Mulyo
+              </h1>
+            </div>
+            <p class='text-forest-200 text-sm sm:text-base md:text-lg font-medium max-w-xl'>
+              Katalog Digital Terbuka Kelompok Ternak Bagus Rejo Mulyo. Pemasaran mandiri langsung dari peternak ke pembeli via WhatsApp.
+            </p>
+          </div>
+          <button onclick='openAddListingModal()' class='font-outfit bg-amberAccent-500 hover:bg-amberAccent-600 active:scale-95 text-forest-950 font-bold w-full md:w-auto h-12 px-6 rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 flex items-center gap-2 group justify-center'>
+            <span class='text-xl group-hover:rotate-90 transition-transform duration-300'>+</span>
+            Tambah Hewan Jual
+          </button>
+        </div>
+      </div>
+    </header>
+
+    <!-- Google AdSense ad placeholder widget slot below header -->
+    <div class='max-w-7xl mx-auto w-full px-4 mt-6'>
+      <div class='bg-white border border-dashed border-gray-300 rounded-2xl p-4 text-center text-xs text-gray-400 tracking-wider shadow-sm'>
+        <div class='font-semibold uppercase text-[10px] text-gray-400 mb-1'>Google AdSense Widget Space</div>
+        <!-- Google AdSense tag container -->
+        <ins class="adsbygoogle"
+             style="display:block; text-align:center;"
+             data-ad-layout="in-article"
+             data-ad-format="fluid"
+             data-ad-client="ca-pub-placeholder"
+             data-ad-slot="placeholder"></ins>
+        <script>
+             (adsbygoogle = window.adsbygoogle || []).push({});
+        </script>
+        <div class='text-[10px] text-gray-300 mt-1'>(Iklan Sponsor / Google AdSense)</div>
+      </div>
+    </div>
+
+    <!-- Main Marketplace Section -->
+    <main class='max-w-7xl mx-auto w-full px-4 py-6 sm:py-8 flex-grow'>
+      
+      <!-- Catalog Action & Info bar -->
+      <div class='mb-6 sm:mb-8 flex flex-col md:flex-row md:items-center justify-between gap-4'>
+        <div>
+          <h2 class='font-outfit text-xl sm:text-2xl font-bold text-forest-900'>Etalase Domba Anggota</h2>
+          <p class='text-xs sm:text-sm text-gray-500'>Daftar domba yang diposting oleh para peternak kelompok Bagus Rejo Mulyo.</p>
+        </div>
+        <div class='flex flex-col sm:flex-row sm:items-center gap-3 w-full md:w-auto'>
+          <!-- Search box input - touch friendly (h-12) -->
+          <div class='relative w-full md:w-64'>
+            <input type='text' id='searchInput' placeholder='Cari ras, pemilik, atau alamat...' oninput='applyFilters()' class='w-full h-12 pl-10 pr-4 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-forest-600 focus:border-transparent text-sm bg-white' />
+            <span class='absolute left-3 top-3.5 text-gray-400'>
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+              </svg>
+            </span>
+          </div>
+          <!-- Breed select filter - touch friendly (h-12) -->
+          <select id='breedFilter' onchange='applyFilters()' class='w-full sm:w-auto h-12 px-4 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-forest-600 focus:border-transparent text-sm bg-white'>
+            <option value=''>Semua Jenis Ras</option>
+            <option value='Domba Dorper'>Domba Dorper</option>
+            <option value='Domba Merino'>Domba Merino</option>
+            <option value='Domba Texel'>Domba Texel</option>
+            <option value='Domba Garut'>Domba Garut</option>
+            <option value='Domba Gibas / Lokal'>Domba Gibas / Lokal</option>
+            <option value='Domba Batur'>Domba Batur</option>
+            <option value='Domba Suffolk'>Domba Suffolk</option>
+            <option value='Lainnya'>Lainnya</option>
+          </select>
+        </div>
+      </div>
+
+      <!-- App Status Screens -->
+      <!-- LOADING STATE -->
+      <div id='loadingState' class='py-24 text-center'>
+        <div class='inline-block animate-spin rounded-full h-12 w-12 border-4 border-forest-600 border-t-transparent mb-4'></div>
+        <p class='text-gray-500 font-medium'>Menyinkronkan data etalase pasar...</p>
+      </div>
+
+      <!-- ERROR STATE -->
+      <div id='errorState' class='hidden py-16 text-center max-w-md mx-auto px-4'>
+        <div class='bg-red-50 text-red-800 p-6 rounded-2xl border border-red-200 shadow-sm'>
+          <span class='text-4xl mb-3 block'>⚠️</span>
+          <h3 class='font-outfit text-lg font-semibold mb-2'>Koneksi Backend Terputus</h3>
+          <p class='text-sm text-red-700 mb-4' id='errorMessage'>Gagal memuat katalog dari database pusat.</p>
+          <button onclick='loadMarketplaceData()' class='w-full h-12 bg-red-650 text-white rounded-xl text-sm font-semibold hover:bg-red-700 transition shadow flex items-center justify-center'>Coba Hubungkan Kembali</button>
+        </div>
+      </div>
+
+      <!-- EMPTY STATE -->
+      <div id='emptyState' class='hidden py-20 text-center max-w-lg mx-auto bg-white rounded-3xl border border-gray-200 shadow-sm p-8 px-4'>
+        <span class='text-6xl mb-4 block'>🐑</span>
+        <h3 class='font-outfit text-xl font-bold text-gray-700 mb-2'>Katalog Belum Tersedia</h3>
+        <p class='text-gray-500 text-sm mb-6 px-2'>Belum ada penawaran domba yang diunggah saat ini. Unggah ternak Anda untuk memulainya!</p>
+        <button onclick='openAddListingModal()' class='w-full sm:w-auto h-12 px-6 bg-forest-700 text-white rounded-xl font-semibold hover:bg-forest-850 transition shadow-md flex items-center justify-center mx-auto'>
+          + Pasang Iklan Pertama
+        </button>
+      </div>
+
+      <!-- SHOWCASE CARDS GRID (1 column on mobile, 2 on tablet, 3-4 on desktop) -->
+      <div id='listingsGrid' class='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-6 lg:gap-8'>
+        <!-- Listings Cards will be dynamically injected here -->
+      </div>
+    </main>
+
+    <!-- Footer branding -->
+    <footer class='bg-forest-950 text-forest-300 py-8 border-t border-forest-900 mt-12'>
+      <div class='max-w-7xl mx-auto px-4 text-center'>
+        <p class='font-outfit font-bold text-white text-base mb-1'>Pasar Domba Bagus Rejo Mulyo</p>
+        <p class='text-xs text-forest-400'>Platform Jual Beli Terbuka &amp; Terpercaya Kelompok Ternak Bagus Rejo Mulyo.</p>
+        <p class='text-[10px] text-forest-500 mt-4'>&#169; 2026 Bagus Rejo Mulyo. All rights reserved.</p>
+      </div>
+    </footer>
+  </div>
+
+  <!-- ADD LISTING MODAL FORM (Adaptive Bottom-Sheet Layout on Mobile) -->
+  <div id='addListingModal' class='fixed inset-0 z-50 overflow-y-auto hidden' aria-labelledby='modal-title' role='dialog' aria-modal='true'>
+    <!-- Flex layout switches: items-end on mobile (bottom sheet) and items-center on small screens and up -->
+    <div class='flex items-end sm:items-center justify-center min-h-screen pt-4 px-0 sm:px-4 pb-0 sm:pb-20 text-center sm:block sm:p-0'>
+      <!-- Backdrop overlay -->
+      <div class='fixed inset-0 bg-gray-900/60 transition-opacity' aria-hidden='true' onclick='closeAddListingModal()'></div>
+
+      <!-- Center container element spacing helper -->
+      <span class='hidden sm:inline-block sm:align-middle sm:h-screen' aria-hidden='true'>&#8203;</span>
+      
+      <!-- Modal card sheet: full width and rounded top on mobile, centered modal box on desktop -->
+      <div class='relative inline-block bg-white rounded-t-3xl sm:rounded-2xl text-left overflow-hidden shadow-2xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full w-full max-h-[92vh] sm:max-h-none overflow-y-auto'>
+        
+        <!-- Closing Button (XML Bug prevention: literal character X) -->
+        <button type='button' onclick='closeAddListingModal()' class='absolute top-4 right-4 text-gray-400 hover:text-gray-600 bg-gray-100 hover:bg-gray-200 rounded-full w-8 h-8 flex items-center justify-center font-bold text-sm focus:outline-none transition-all z-10'>
+          X
+        </button>
+
+        <div class='bg-white px-5 pt-6 pb-6 sm:p-8'>
+          <div class='sm:flex sm:items-start w-full'>
+            <div class='w-full text-left'>
+              <h3 class='text-lg sm:text-xl leading-6 font-outfit font-extrabold text-forest-900 mb-5 sm:mb-6 flex items-center gap-2' id='modal-title'>
+                <span>🐑</span> Tambah Posting Jualan Domba
+              </h3>
+              
+              <!-- Form input controls - finger friendly inputs (h-12) -->
+              <form id='addListingForm' onsubmit='submitAddListing(event)' class='space-y-4 text-sm'>
+                <div>
+                  <label for='namaPenjual' class='block text-xs font-semibold text-gray-500 uppercase tracking-wider mb-1'>Nama Pemilik / Penjual</label>
+                  <input type='text' id='namaPenjual' required='required' placeholder='Contoh: Pak Eko (Wajib Diisi)' class='w-full h-12 px-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-forest-600 text-sm' />
+                </div>
+
+                <div>
+                  <label for='alamatPenjual' class='block text-xs font-semibold text-gray-500 uppercase tracking-wider mb-1'>Alamat Pemilik / Penjual</label>
+                  <textarea id='alamatPenjual' required='required' rows='2' placeholder='Contoh: Dusun Bagusan RT 02 RW 07, Sendangijo, Selogiri (Wajib Diisi)' class='w-full px-3 py-2.5 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-forest-600 text-sm'></textarea>
+                </div>
+
+                <div class='grid grid-cols-2 gap-4'>
+                  <div>
+                    <label for='jenisRas' class='block text-xs font-semibold text-gray-500 uppercase tracking-wider mb-1'>Jenis Ras Domba</label>
+                    <select id='jenisRas' required='required' class='w-full h-12 px-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-forest-600 text-sm bg-white'>
+                      <option value='Domba Dorper'>Domba Dorper</option>
+                      <option value='Domba Merino'>Domba Merino</option>
+                      <option value='Domba Texel'>Domba Texel</option>
+                      <option value='Domba Garut'>Domba Garut</option>
+                      <option value='Domba Gibas / Lokal'>Domba Gibas / Lokal</option>
+                      <option value='Domba Batur'>Domba Batur</option>
+                      <option value='Domba Suffolk'>Domba Suffolk</option>
+                      <option value='Lainnya'>Lainnya</option>
+                    </select>
+                  </div>
+                  <div>
+                    <label for='bobotKg' class='block text-xs font-semibold text-gray-500 uppercase tracking-wider mb-1'>Perkiraan Bobot (kg)</label>
+                    <input type='number' id='bobotKg' required='required' step='0.1' min='0.1' placeholder='Contoh: 45.5' class='w-full h-12 px-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-forest-600 text-sm' />
+                  </div>
+                </div>
+
+                <div class='grid grid-cols-2 gap-4'>
+                  <div>
+                    <label for='harga' class='block text-xs font-semibold text-gray-500 uppercase tracking-wider mb-1'>Harga Jual (Rp)</label>
+                    <input type='number' id='harga' required='required' min='1000' placeholder='Contoh: 3500000' class='w-full h-12 px-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-forest-600 text-sm' />
+                  </div>
+                  <div>
+                    <label for='whatsappPenjual' class='block text-xs font-semibold text-gray-500 uppercase tracking-wider mb-1'>Nomor WhatsApp</label>
+                    <input type='text' id='whatsappPenjual' required='required' placeholder='Contoh: 08123456789' class='w-full h-12 px-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-forest-600 text-sm' />
+                  </div>
+                </div>
+
+                <!-- Foto Upload Input with compression -->
+                <div>
+                  <label class='block text-xs font-semibold text-gray-500 uppercase tracking-wider mb-1'>Foto Domba (1 Foto)</label>
+                  <div class='mt-1 flex justify-center px-6 pt-4 pb-4 border-2 border-gray-300 border-dashed rounded-xl hover:border-forest-600 transition-colors relative bg-gray-50'>
+                    <div class='space-y-1 text-center' id='uploadPrompt'>
+                      <svg class='mx-auto h-10 w-10 text-gray-400' stroke='currentColor' fill='none' viewBox='0 0 48 48' aria-hidden='true'>
+                        <path d='M28 8H12a4 4 0 00-4 4v20m32-12v8m0 0v8a4 4 0 01-4 4H12a4 4 0 01-4-4v-4m32-4l-3.172-3.172a4 4 0 00-5.656 0L28 28M8 32l9.172-9.172a4 4 0 015.656 0L28 28m0 0l4 4m4-24h8m-4-4v8m-12 4h.02' stroke-width='2' stroke-linecap='round' stroke-linejoin='round' />
+                      </svg>
+                      <div class='flex text-sm text-gray-650 justify-center'>
+                        <label for='fotoInput' class='relative cursor-pointer bg-transparent rounded-md font-semibold text-forest-700 hover:text-forest-600 focus-within:outline-none'>
+                          <span>Unggah file gambar</span>
+                          <input id='fotoInput' type='file' accept='image/*' required='required' class='sr-only' onchange='handleFotoChange(event)' />
+                        </label>
+                      </div>
+                      <p class='text-xs text-gray-400'>PNG, JPG, JPEG (Maks. 3MB)</p>
+                    </div>
+                    <div class='hidden relative w-full h-40' id='previewContainer'>
+                      <img id='fotoPreview' class='w-full h-full object-cover rounded-lg shadow-inner' src='#' alt='Preview Foto' />
+                      <!-- Remove Button (literal character X) -->
+                      <button type='button' onclick='removeUploadedFoto()' class='absolute top-2 right-2 bg-red-650 hover:bg-red-750 text-white rounded-full w-6 h-6 flex items-center justify-center font-bold text-xs shadow-md transition-all'>
+                        X
+                      </button>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Form Action Buttons - touch friendly (h-12) -->
+                <div class='pt-2 flex gap-3'>
+                  <button type='button' onclick='closeAddListingModal()' class='w-1/2 h-12 bg-gray-100 hover:bg-gray-200 text-gray-750 rounded-xl font-semibold transition active:scale-95 flex items-center justify-center'>
+                    Batal
+                  </button>
+                  <button type='submit' id='submitBtn' class='w-1/2 h-12 bg-forest-750 hover:bg-forest-800 text-white rounded-xl font-semibold transition active:scale-95 shadow-md flex items-center justify-center gap-2'>
+                    Pasang Iklan
+                  </button>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast Toast message dialog -->
+  <div id='toast' class='fixed bottom-5 right-5 z-50 max-w-sm w-full bg-white rounded-xl shadow-2xl border-l-4 border-forest-600 p-4 transform translate-y-24 opacity-0 transition-all duration-300 pointer-events-none flex items-start gap-3'>
+    <span id='toastIcon' class='text-xl'>✅</span>
+    <div>
+      <h4 id='toastTitle' class='font-outfit font-bold text-gray-900 text-sm'>Sukses</h4>
+      <p id='toastMessage' class='text-gray-500 text-xs mt-0.5'></p>
+    </div>
+  </div>
+
+  <!-- JS SCRIPT ENGINE -->
+  <script type='text/javascript'>
+    //<![CDATA[
+    
+    // API GATEWAY CONFIGURATION
+    // Points to localhost during dev/testing, otherwise falls back to production API
+    const API_BASE_URL = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1'
+      ? 'http://localhost:3000'
+      : 'https://pasar-domba-backend.vercel.app'; // REPLACE_WITH_YOUR_VERCEL_URL
+
+    let cachedListings = [];
+    let base64FotoData = '';
+
+    // Handle splash page display
+    document.addEventListener('DOMContentLoaded', () => {
+      initWelcomeScreen();
+      loadMarketplaceData();
+    });
+
+    function initWelcomeScreen() {
+      const welcome = document.getElementById('welcome-screen');
+      const isDismissed = sessionStorage.getItem('pasardomba_welcome_dismissed') === 'true';
+      if (isDismissed) {
+        if (welcome) welcome.style.display = 'none';
+      }
+    }
+
+    function enterApp() {
+      const welcome = document.getElementById('welcome-screen');
+      if (welcome) {
+        welcome.style.opacity = '0';
+        welcome.style.transform = 'scale(1.03)';
+        sessionStorage.setItem('pasardomba_welcome_dismissed', 'true');
+        setTimeout(() => {
+          welcome.style.display = 'none';
+        }, 500);
+      }
+    }
+
+    // Fetch catalog listings from server
+    async function loadMarketplaceData() {
+      showLoading(true);
+      showError(false);
+      showEmpty(false);
+      try {
+        const response = await fetch(API_BASE_URL + '/api/market');
+        if (!response.ok) {
+          throw new Error('Koneksi server gagal dengan status: ' + response.status);
+        }
+        cachedListings = await response.json();
+        applyFilters();
+      } catch (err) {
+        console.error('Error fetching data:', err);
+        showError(true, err.message || 'Gagal tersambung dengan server database.');
+      } finally {
+        showLoading(false);
+      }
+    }
+
+    // Apply Filter & Search query checks
+    function applyFilters() {
+      const searchQuery = document.getElementById('searchInput').value.toLowerCase().trim();
+      const selectedBreed = document.getElementById('breedFilter').value;
+
+      const filtered = cachedListings.filter(item => {
+        const matchSearch = item.jenis_ras.toLowerCase().includes(searchQuery) || 
+                            item.nama_penjual.toLowerCase().includes(searchQuery) ||
+                            item.alamat_penjual.toLowerCase().includes(searchQuery);
+        const matchBreed = selectedBreed === '' || item.jenis_ras === selectedBreed;
+        return matchSearch && matchBreed;
+      });
+
+      renderShowcaseGrid(filtered);
+    }
+
+    // Render Showcase listings
+    function renderShowcaseGrid(items) {
+      const grid = document.getElementById('listingsGrid');
+      grid.innerHTML = '';
+
+      if (items.length === 0) {
+        showEmpty(true);
+        return;
+      } else {
+        showEmpty(false);
+      }
+
+      items.forEach(item => {
+        const isSold = item.status === 'Terjual';
+        const formattedPrice = formatRupiah(item.harga);
+        
+        // Prepare URL-encoded text routing directly to that specific seller's WhatsApp
+        const waText = 'Halo Pak/Bu ' + item.nama_penjual + ', saya tertarik dengan Domba ' + item.jenis_ras + ' seharga ' + formattedPrice + ' yang diiklankan di Pasar Domba Bagus Rejo Mulyo. Apakah masih tersedia?';
+        
+        // Clean WhatsApp number format (remove non-numbers, replace leading 0 with country code 62)
+        let cleanWA = item.whatsapp_penjual.replace(/\D/g, '');
+        if (cleanWA.startsWith('0')) {
+          cleanWA = '62' + cleanWA.substring(1);
+        }
+        const waUrl = 'https://wa.me/' + cleanWA + '?text=' + encodeURIComponent(waText);
+
+        const card = document.createElement('div');
+        card.className = 'fade-in relative bg-white rounded-3xl overflow-hidden shadow-md hover:shadow-xl transition-all duration-300 border border-gray-100 flex flex-col h-full group ' + (isSold ? 'opacity-75' : '');
+
+        card.innerHTML = `
+          <!-- Card Image Thumbnail -->
+          <div class="relative w-full h-52 bg-gray-150 overflow-hidden">
+            <img src="${item.foto_url || 'https://images.unsplash.com/photo-1484557985045-edf25e08da73?auto=format&fit=crop&w=800&q=80'}" 
+                 alt="${item.jenis_ras}" 
+                 class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
+
+            <!-- Status Mask Overlay for sold items -->
+            ${isSold ? `
+              <div class="absolute inset-0 bg-gray-900/70 backdrop-blur-[2px] flex items-center justify-center z-10">
+                <span class="bg-red-600 text-white font-outfit text-lg font-extrabold tracking-wider px-5 py-2 rounded-2xl shadow-xl border border-red-500 transform -rotate-6 uppercase">
+                  Terjual
+                </span>
+              </div>
+            ` : ''}
+          </div>
+
+          <!-- Card Content Body -->
+          <div class="p-4 sm:p-6 flex-grow flex flex-col justify-between">
+            <div>
+              <h3 class="font-outfit text-lg sm:text-xl font-bold text-gray-800 leading-tight mb-2">${item.jenis_ras}</h3>
+              
+              <!-- Owner & Address displays (Prominently show Owner Name & Address) -->
+              <div class="flex flex-col gap-1.5 mb-4 bg-gray-50 px-3.5 py-2.5 rounded-xl border border-gray-150 text-xs">
+                <div class="flex items-center gap-2">
+                  <span class="text-sm">👤</span>
+                  <span class="text-gray-500 font-medium">Pemilik: 
+                    <strong class="text-gray-800 font-semibold">${item.nama_penjual}</strong>
+                  </span>
+                </div>
+                <div class="flex items-start gap-2 pt-1.5 border-t border-gray-200/50">
+                  <span class="text-sm">📍</span>
+                  <span class="text-gray-500 font-medium">Alamat: 
+                    <strong class="text-gray-850 font-semibold">${item.alamat_penjual}</strong>
+                  </span>
+                </div>
+              </div>
+
+              <!-- Product Specs -->
+              <div class="grid grid-cols-2 gap-3 mb-4 text-xs">
+                <div class="bg-forest-50 p-2.5 rounded-xl border border-forest-100/50">
+                  <span class="block text-gray-400 font-medium mb-0.5">Estimasi Bobot</span>
+                  <span class="font-bold text-forest-900 text-sm font-outfit">${item.bobot_kg} kg</span>
+                </div>
+                <div class="bg-amberAccent-50 p-2.5 rounded-xl border border-amberAccent-100/50">
+                  <span class="block text-gray-400 font-medium mb-0.5">WhatsApp</span>
+                  <span class="font-bold text-amberAccent-900 text-sm font-outfit">${item.whatsapp_penjual}</span>
+                </div>
+              </div>
+            </div>
+
+            <div>
+              <!-- Price Display -->
+              <div class="mb-4 flex flex-col">
+                <span class="text-xs text-gray-400 font-medium">Harga Domba</span>
+                <span class="text-xl sm:text-2xl font-black font-outfit ${isSold ? 'text-gray-400 line-through' : 'text-forest-700'}">
+                  ${formattedPrice}
+                </span>
+              </div>
+
+              <!-- Action buttons - finger friendly height (h-12) -->
+              ${isSold ? `
+                <button disabled="disabled" class="w-full h-12 bg-gray-200 text-gray-400 font-semibold rounded-xl text-sm cursor-not-allowed flex items-center justify-center gap-2">
+                  🚫 Hubungi Pemilik (Terjual)
+                </button>
+              ` : `
+                <a href="${waUrl}" target="_blank" rel="noopener noreferrer" class="w-full h-12 bg-emerald-600 hover:bg-emerald-700 active:scale-[0.98] text-white font-bold rounded-xl text-sm text-center flex items-center justify-center gap-2 transition duration-200 shadow-md shadow-emerald-600/10">
+                  💬 Hubungi Pemilik (WhatsApp)
+                </a>
+              `}
+
+              <!-- Management actions (Mark as sold & Delete) - finger friendly height (h-11) -->
+              <div class="flex gap-2 mt-3 pt-3 border-t border-gray-100">
+                ${!isSold ? `
+                  <button onclick="markListingAsSold(${item.id})" class="flex-1 h-11 bg-amber-500 hover:bg-amber-600 active:scale-[0.97] text-white font-semibold text-xs rounded-lg text-center transition duration-150 flex items-center justify-center gap-1 shadow-sm">
+                    ✓ Tandai Terjual
+                  </button>
+                ` : ''}
+                <button onclick="deleteListingRow(${item.id})" class="flex-grow h-11 bg-red-50 hover:bg-red-100 hover:text-red-700 active:scale-[0.97] text-red-655 font-semibold text-xs rounded-lg text-center transition duration-150 flex items-center justify-center gap-1 border border-red-200">
+                  🗑️ Hapus
+                </button>
+              </div>
+            </div>
+          </div>
+        `;
+        grid.appendChild(card);
+      });
+    }
+
+    // Modal view handlers
+    function openAddListingModal() {
+      document.getElementById('addListingModal').classList.remove('hidden');
+      document.body.style.overflow = 'hidden';
+    }
+
+    // Close Modal View helper
+    function closeAddListingModal() {
+      document.getElementById('addListingModal').classList.add('hidden');
+      document.body.style.overflow = '';
+      document.getElementById('addListingForm').reset();
+      removeUploadedFoto();
+    }
+
+    // Image Upload Base64 Converter
+    function handleFotoChange(e) {
+      const file = e.target.files[0];
+      if (!file) return;
+
+      // Limit check (max 3MB)
+      if (file.size > 3 * 1024 * 1024) {
+        showToast('Unggahan Gagal', 'Ukuran foto maksimal adalah 3MB.', 'error');
+        e.target.value = '';
+        return;
+      }
+
+      const reader = new FileReader();
+      reader.onload = function(evt) {
+        base64FotoData = evt.target.result;
+        document.getElementById('uploadPrompt').classList.add('hidden');
+        document.getElementById('previewContainer').classList.remove('hidden');
+        document.getElementById('fotoPreview').src = base64FotoData;
+      };
+      reader.readAsDataURL(file);
+    }
+
+    // Remove photo helper
+    function removeUploadedFoto() {
+      base64FotoData = '';
+      document.getElementById('fotoInput').value = '';
+      document.getElementById('uploadPrompt').classList.remove('hidden');
+      document.getElementById('previewContainer').classList.add('hidden');
+      document.getElementById('fotoPreview').src = '#';
+    }
+
+    // Submit New Entry Form
+    async function submitAddListing(e) {
+      e.preventDefault();
+      
+      const submitBtn = document.getElementById('submitBtn');
+      submitBtn.disabled = true;
+      submitBtn.innerHTML = 'Menyimpan... ⏳';
+
+      const payload = {
+        nama_penjual: document.getElementById('namaPenjual').value.trim(),
+        alamat_penjual: document.getElementById('alamatPenjual').value.trim(),
+        jenis_ras: document.getElementById('jenisRas').value,
+        bobot_kg: parseFloat(document.getElementById('bobotKg').value),
+        harga: parseInt(document.getElementById('harga').value),
+        whatsapp_penjual: document.getElementById('whatsappPenjual').value.trim(),
+        foto_url: base64FotoData
+      };
+
+      try {
+        const response = await fetch(API_BASE_URL + '/api/market', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload)
+        });
+
+        if (!response.ok) {
+          const errData = await response.json();
+          throw new Error(errData.message || 'Gagal menyimpan data.');
+        }
+
+        showToast('Sukses', 'Iklan domba berhasil dipublikasikan!', 'success');
+        closeAddListingModal();
+        loadMarketplaceData();
+      } catch (err) {
+        console.error('Error posting listing:', err);
+        showToast('Posting Gagal', err.message || 'Terjadi kesalahan sistem backend.', 'error');
+      } finally {
+        submitBtn.disabled = false;
+        submitBtn.innerHTML = 'Pasang Iklan';
+      }
+    }
+
+    // Update Item Status (PUT)
+    async function markListingAsSold(id) {
+      if (!confirm('Apakah Anda yakin ingin menandai domba ini sebagai Terjual?')) return;
+      
+      try {
+        const response = await fetch(API_BASE_URL + '/api/market/' + id + '/status', {
+          method: 'PUT',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ status: 'Terjual' })
+        });
+
+        if (!response.ok) {
+          throw new Error('Gagal mengupdate status ke database.');
+        }
+
+        showToast('Sukses', 'Domba berhasil ditandai sebagai TERJUAL.', 'success');
+        loadMarketplaceData();
+      } catch (err) {
+        console.error('Error updating status:', err);
+        showToast('Gagal Update', err.message || 'Terjadi kesalahan database.', 'error');
+      }
+    }
+
+    // Delete listing row completely (DELETE)
+    async function deleteListingRow(id) {
+      if (!confirm('Apakah Anda yakin ingin menghapus posting jualan ini secara permanen dari database?')) return;
+
+      try {
+        const response = await fetch(API_BASE_URL + '/api/market/' + id, {
+          method: 'DELETE'
+        });
+
+        if (!response.ok) {
+          throw new Error('Gagal menghapus data dari database.');
+        }
+
+        showToast('Sukses', 'Iklan domba berhasil dihapus secara permanen.', 'success');
+        loadMarketplaceData();
+      } catch (err) {
+        console.error('Error deleting listing:', err);
+        showToast('Gagal Hapus', err.message || 'Terjadi kesalahan database.', 'error');
+      }
+    }
+
+    // Helper UI controllers
+    function showLoading(show) {
+      document.getElementById('loadingState').classList.toggle('hidden', !show);
+      if (show) {
+        document.getElementById('listingsGrid').innerHTML = '';
+      }
+    }
+
+    function showError(show, msg = '') {
+      document.getElementById('errorState').classList.toggle('hidden', !show);
+      if (show) {
+        document.getElementById('errorMessage').textContent = msg;
+        document.getElementById('listingsGrid').innerHTML = '';
+      }
+    }
+
+    // Show empty page info
+    function showEmpty(show) {
+      document.getElementById('emptyState').classList.toggle('hidden', !show);
+    }
+
+    // Format number to Rupiah
+    function formatRupiah(amount) {
+      const number = Number(amount);
+      if (isNaN(number)) return 'Rp 0';
+      return 'Rp ' + number.toLocaleString('id-ID');
+    }
+
+    // Trigger toast alerts
+    function showToast(title, message, type = 'success') {
+      const toast = document.getElementById('toast');
+      const toastIcon = document.getElementById('toastIcon');
+      const toastTitle = document.getElementById('toastTitle');
+      const toastMessage = document.getElementById('toastMessage');
+
+      toastTitle.textContent = title;
+      toastMessage.textContent = message;
+
+      if (type === 'success') {
+        toast.className = 'fixed bottom-5 right-5 z-50 max-w-sm w-full bg-white rounded-xl shadow-2xl border-l-4 border-emerald-650 p-4 transform translate-y-0 opacity-100 transition-all duration-300 flex items-start gap-3';
+        toastIcon.textContent = '✅';
+      } else {
+        toast.className = 'fixed bottom-5 right-5 z-50 max-w-sm w-full bg-white rounded-xl shadow-2xl border-l-4 border-red-650 p-4 transform translate-y-0 opacity-100 transition-all duration-300 flex items-start gap-3';
+        toastIcon.textContent = '⚠️';
+      }
+
+      // Automatically hide after 4 seconds
+      setTimeout(() => {
+        toast.className = 'fixed bottom-5 right-5 z-50 max-w-sm w-full bg-white rounded-xl shadow-2xl border-l-4 border-forest-600 p-4 transform translate-y-24 opacity-0 transition-all duration-300 pointer-events-none flex items-start gap-3';
+      }, 4000);
+    }
+
+    //]]>
+  </script>
+</body>
+</html>
