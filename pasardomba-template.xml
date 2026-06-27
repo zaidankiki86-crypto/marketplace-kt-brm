@@ -236,7 +236,7 @@
           <span class='text-4xl mb-3 block'>⚠️</span>
           <h3 class='font-outfit text-lg font-semibold mb-2'>Koneksi Backend Terputus</h3>
           <p class='text-sm text-red-700 mb-4' id='errorMessage'>Gagal memuat katalog dari database pusat.</p>
-          <button onclick='loadMarketplaceData()' class='w-full h-12 bg-red-650 text-white rounded-xl text-sm font-semibold hover:bg-red-700 transition shadow flex items-center justify-center'>Coba Hubungkan Kembali</button>
+          <button onclick='loadMarketplaceData()' class='w-full h-12 bg-red-655 text-white rounded-xl text-sm font-semibold hover:bg-red-700 transition shadow flex items-center justify-center'>Coba Hubungkan Kembali</button>
         </div>
       </div>
 
@@ -342,7 +342,7 @@
                       <svg class='mx-auto h-10 w-10 text-gray-400' stroke='currentColor' fill='none' viewBox='0 0 48 48' aria-hidden='true'>
                         <path d='M28 8H12a4 4 0 00-4 4v20m32-12v8m0 0v8a4 4 0 01-4 4H12a4 4 0 01-4-4v-4m32-4l-3.172-3.172a4 4 0 00-5.656 0L28 28M8 32l9.172-9.172a4 4 0 015.656 0L28 28m0 0l4 4m4-24h8m-4-4v8m-12 4h.02' stroke-width='2' stroke-linecap='round' stroke-linejoin='round' />
                       </svg>
-                      <div class='flex text-sm text-gray-650 justify-center'>
+                      <div class='flex text-sm text-gray-655 justify-center'>
                         <label for='fotoInput' class='relative cursor-pointer bg-transparent rounded-md font-semibold text-forest-700 hover:text-forest-600 focus-within:outline-none'>
                           <span>Unggah file gambar</span>
                           <input id='fotoInput' type='file' accept='image/*' required='required' class='sr-only' onchange='handleFotoChange(event)' />
@@ -353,7 +353,7 @@
                     <div class='hidden relative w-full h-40' id='previewContainer'>
                       <img id='fotoPreview' class='w-full h-full object-cover rounded-lg shadow-inner' src='#' alt='Preview Foto' />
                       <!-- Remove Button (literal character X) -->
-                      <button type='button' onclick='removeUploadedFoto()' class='absolute top-2 right-2 bg-red-650 hover:bg-red-750 text-white rounded-full w-6 h-6 flex items-center justify-center font-bold text-xs shadow-md transition-all'>
+                      <button type='button' onclick='removeUploadedFoto()' class='absolute top-2 right-2 bg-red-655 hover:bg-red-750 text-white rounded-full w-6 h-6 flex items-center justify-center font-bold text-xs shadow-md transition-all'>
                         X
                       </button>
                     </div>
@@ -390,11 +390,8 @@
   <script type='text/javascript'>
     //<![CDATA[
     
-    // API GATEWAY CONFIGURATION
-    // Points to localhost during dev/testing, otherwise falls back to production API
-    const API_BASE_URL = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1'
-      ? 'http://localhost:3000'
-      : 'https://pasar-domba-backend.vercel.app'; // REPLACE_WITH_YOUR_VERCEL_URL
+    // API GATEWAY CONFIGURATION - HARDCODED LIVE API URL
+    const API_BASE_URL = 'https://marketplace-kt-brm.vercel.app';
 
     let cachedListings = [];
     let base64FotoData = '';
@@ -500,7 +497,7 @@
             <!-- Status Mask Overlay for sold items -->
             ${isSold ? `
               <div class="absolute inset-0 bg-gray-900/70 backdrop-blur-[2px] flex items-center justify-center z-10">
-                <span class="bg-red-600 text-white font-outfit text-lg font-extrabold tracking-wider px-5 py-2 rounded-2xl shadow-xl border border-red-500 transform -rotate-6 uppercase">
+                <span class="bg-red-650 text-white font-outfit text-lg font-extrabold tracking-wider px-5 py-2 rounded-2xl shadow-xl border border-red-500 transform -rotate-6 uppercase">
                   Terjual
                 </span>
               </div>
@@ -718,6 +715,7 @@
       }
     }
 
+    // Show connection error
     function showError(show, msg = '') {
       document.getElementById('errorState').classList.toggle('hidden', !show);
       if (show) {
@@ -752,7 +750,7 @@
         toast.className = 'fixed bottom-5 right-5 z-50 max-w-sm w-full bg-white rounded-xl shadow-2xl border-l-4 border-emerald-650 p-4 transform translate-y-0 opacity-100 transition-all duration-300 flex items-start gap-3';
         toastIcon.textContent = '✅';
       } else {
-        toast.className = 'fixed bottom-5 right-5 z-50 max-w-sm w-full bg-white rounded-xl shadow-2xl border-l-4 border-red-650 p-4 transform translate-y-0 opacity-100 transition-all duration-300 flex items-start gap-3';
+        toast.className = 'fixed bottom-5 right-5 z-50 max-w-sm w-full bg-white rounded-xl shadow-2xl border-l-4 border-red-655 p-4 transform translate-y-0 opacity-100 transition-all duration-300 flex items-start gap-3';
         toastIcon.textContent = '⚠️';
       }
 
