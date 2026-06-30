@@ -139,7 +139,8 @@ app.post('/api/market', async (req, res) => {
       kondisi_kesehatan,
       detail_kesehatan,
       status_harga,
-      sudah_poel
+      sudah_poel,
+      pin_penjual
     } = req.body;
 
     if (!nama_penjual || String(nama_penjual).trim() === '') {
@@ -153,6 +154,9 @@ app.post('/api/market', async (req, res) => {
     }
     if (!whatsapp_penjual || String(whatsapp_penjual).trim() === '') {
       return res.status(400).json({ success: false, error: "Nomor WhatsApp wajib diisi." });
+    }
+    if (!pin_penjual || String(pin_penjual).trim() === '') {
+      return res.status(400).json({ success: false, error: "PIN Keamanan wajib diisi." });
     }
 
     const sanitizedKondisi = kondisi_kesehatan || 'Sehat';
@@ -187,7 +191,8 @@ app.post('/api/market', async (req, res) => {
       kondisi_kesehatan: sanitizedKondisi,
       detail_kesehatan: sanitizedDetail,
       status_harga: status_harga || 'Harga Pas',
-      sudah_poel: sudah_poel || 'Belum Poel'
+      sudah_poel: sudah_poel || 'Belum Poel',
+      pin_penjual: String(pin_penjual).trim()
     };
 
     let result = await supabase
@@ -195,11 +200,24 @@ app.post('/api/market', async (req, res) => {
       .insert([insertPayload])
       .select();
 
+    // Fallback if pin_penjual column is not migrated yet
+    if (result.error && result.error.message && result.error.message.includes('pin_penjual')) {
+      console.warn("pin_penjual column not found. Retrying insertion without it...");
+      const fallbackPayload = { ...insertPayload };
+      delete fallbackPayload.pin_penjual;
+      
+      result = await supabase
+        .from('penjualan_domba')
+        .insert([fallbackPayload])
+        .select();
+    }
+
     // Fallback if sudah_poel column is not migrated yet
     if (result.error && result.error.message && result.error.message.includes('sudah_poel')) {
       console.warn("sudah_poel column not found. Retrying insertion without it...");
       const fallbackPayload = { ...insertPayload };
       delete fallbackPayload.sudah_poel;
+      delete fallbackPayload.pin_penjual;
       
       result = await supabase
         .from('penjualan_domba')
@@ -213,6 +231,7 @@ app.post('/api/market', async (req, res) => {
       const fallbackPayload = { ...insertPayload };
       delete fallbackPayload.status_harga;
       delete fallbackPayload.sudah_poel;
+      delete fallbackPayload.pin_penjual;
       
       result = await supabase
         .from('penjualan_domba')
@@ -233,12 +252,32 @@ app.post('/api/market', async (req, res) => {
 
 /**
  * PUT /api/market/:id/status
- * Sets status to 'Terjual'
+ * Sets status to 'Terjual'. Validates owner PIN before executing.
  */
 app.put('/api/market/:id/status', async (req, res) => {
   try {
     const { id } = req.params;
     const status = req.body.status || 'Terjual';
+    const userPin = req.body.pin || req.query.pin;
+
+    // Fetch existing item to check PIN
+    const { data: item, error: getError } = await supabase
+      .from('penjualan_domba')
+      .select('*')
+      .eq('id', id)
+      .single();
+
+    if (getError) throw new Error(getError.message);
+    if (!item) {
+      return res.status(404).json({ success: false, error: "Domba tidak ditemukan." });
+    }
+
+    // Verify PIN if stored
+    if (item.pin_penjual !== undefined && item.pin_penjual !== null && String(item.pin_penjual).trim() !== '') {
+      if (!userPin || String(userPin).trim() !== String(item.pin_penjual).trim()) {
+        return res.status(403).json({ success: false, error: "PIN keamanan salah atau tidak disertakan." });
+      }
+    }
 
     const { data, error } = await supabase
       .from('penjualan_domba')
@@ -247,9 +286,6 @@ app.put('/api/market/:id/status', async (req, res) => {
       .select();
 
     if (error) throw new Error(error.message);
-    if (!data || data.length === 0) {
-      return res.status(404).json({ success: false, error: "Domba tidak ditemukan." });
-    }
     res.json(data[0]);
   } catch (err) {
     console.error("PUT /api/market status error:", err.message);
@@ -259,11 +295,32 @@ app.put('/api/market/:id/status', async (req, res) => {
 
 /**
  * DELETE /api/market/:id
- * Deletes a listing
+ * Deletes a listing. Validates owner PIN before executing.
  */
 app.delete('/api/market/:id', async (req, res) => {
   try {
     const { id } = req.params;
+    const userPin = req.body.pin || req.query.pin;
+
+    // Fetch existing item to check PIN
+    const { data: item, error: getError } = await supabase
+      .from('penjualan_domba')
+      .select('*')
+      .eq('id', id)
+      .single();
+
+    if (getError) throw new Error(getError.message);
+    if (!item) {
+      return res.status(404).json({ success: false, error: "Domba tidak ditemukan." });
+    }
+
+    // Verify PIN if stored
+    if (item.pin_penjual !== undefined && item.pin_penjual !== null && String(item.pin_penjual).trim() !== '') {
+      if (!userPin || String(userPin).trim() !== String(item.pin_penjual).trim()) {
+        return res.status(403).json({ success: false, error: "PIN keamanan salah atau tidak disertakan." });
+      }
+    }
+
     const { data, error } = await supabase
       .from('penjualan_domba')
       .delete()
@@ -271,9 +328,6 @@ app.delete('/api/market/:id', async (req, res) => {
       .select();
 
     if (error) throw new Error(error.message);
-    if (!data || data.length === 0) {
-      return res.status(404).json({ success: false, error: "Domba tidak ditemukan." });
-    }
     res.json({ success: true, deletedItem: data[0] });
   } catch (err) {
     console.error("DELETE /api/market error:", err.message);
