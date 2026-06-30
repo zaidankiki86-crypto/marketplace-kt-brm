@@ -35,6 +35,111 @@ app.get('/api/health', (req, res) => {
 });
 
 /**
+ * POST /api/register-seller
+ * Registers a new seller name with a 4-digit PIN.
+ */
+app.post('/api/register-seller', async (req, res) => {
+  try {
+    const { nama_penjual, pin_penjual } = req.body;
+    if (!nama_penjual || String(nama_penjual).trim() === '') {
+      return res.status(400).json({ success: false, error: "Nama penjual wajib diisi." });
+    }
+    if (!pin_penjual || String(pin_penjual).trim() === '') {
+      return res.status(400).json({ success: false, error: "PIN Keamanan wajib diisi." });
+    }
+
+    const sanitizedName = String(nama_penjual).trim();
+    const sanitizedPin = String(pin_penjual).trim();
+
+    // Check if account already exists
+    const { data: existing, error: checkError } = await supabase
+      .from('akun_penjual')
+      .select('nama_penjual')
+      .eq('nama_penjual', sanitizedName);
+
+    if (checkError) {
+      // Fallback if table doesn't exist yet
+      if (checkError.message.includes('relation "akun_penjual" does not exist')) {
+        console.warn("Table 'akun_penjual' does not exist. Bypassing via Fallback Mode.");
+        return res.json({ success: true, message: "Pendaftaran berhasil (Fallback Mode: Tabel Akun Belum Dimigrasi)." });
+      }
+      throw new Error(checkError.message);
+    }
+
+    if (existing && existing.length > 0) {
+      return res.status(400).json({ success: false, error: "Nama penjual sudah terdaftar, silakan gunakan nama lain atau masuk." });
+    }
+
+    // Insert new account record
+    const { data: inserted, error: insertError } = await supabase
+      .from('akun_penjual')
+      .insert([{ nama_penjual: sanitizedName, pin_penjual: sanitizedPin }])
+      .select();
+
+    if (insertError) throw new Error(insertError.message);
+
+    res.json({ success: true, account: inserted[0] });
+  } catch (err) {
+    console.error("POST /api/register-seller error:", err.message);
+    res.status(500).json({ success: false, error: err.message });
+  }
+});
+
+/**
+ * POST /api/login-seller
+ * Validates seller login credentials.
+ */
+app.post('/api/login-seller', async (req, res) => {
+  try {
+    const { nama_penjual, pin_penjual } = req.body;
+    if (!nama_penjual || String(nama_penjual).trim() === '') {
+      return res.status(400).json({ success: false, error: "Nama penjual wajib diisi." });
+    }
+    if (!pin_penjual || String(pin_penjual).trim() === '') {
+      return res.status(400).json({ success: false, error: "PIN Keamanan wajib diisi." });
+    }
+
+    const sanitizedName = String(nama_penjual).trim();
+    const sanitizedPin = String(pin_penjual).trim();
+
+    const { data: account, error: checkError } = await supabase
+      .from('akun_penjual')
+      .select('*')
+      .eq('nama_penjual', sanitizedName)
+      .single();
+
+    if (checkError) {
+      // Fallback if table doesn't exist
+      if (checkError.message.includes('relation "akun_penjual" does not exist')) {
+        console.warn("Table 'akun_penjual' does not exist. Checking database listings for matches.");
+        const { data: listings, error: listingError } = await supabase
+          .from('penjualan_domba')
+          .select('pin_penjual')
+          .eq('nama_penjual', sanitizedName);
+
+        if (!listingError && listings && listings.length > 0) {
+          const match = listings.some(item => String(item.pin_penjual).trim() === sanitizedPin);
+          if (!match) {
+            return res.status(401).json({ success: false, error: "Nama Penjual atau PIN salah." });
+          }
+        }
+        return res.json({ success: true, name: sanitizedName, token: "fallback-session-token" });
+      }
+      return res.status(401).json({ success: false, error: "Nama Penjual atau PIN salah." });
+    }
+
+    if (!account || String(account.pin_penjual).trim() !== sanitizedPin) {
+      return res.status(401).json({ success: false, error: "Nama Penjual atau PIN salah." });
+    }
+
+    res.json({ success: true, name: account.nama_penjual, token: "active-session-token" });
+  } catch (err) {
+    console.error("POST /api/login-seller error:", err.message);
+    res.status(500).json({ success: false, error: err.message });
+  }
+});
+
+/**
  * GET /api/market
  * Fetches listings sorted by availability status ('Tersedia' first, then 'Terjual'), 
  * and then by created_at timestamp descending.
@@ -45,7 +150,6 @@ app.get('/api/market', async (req, res) => {
       throw new Error("Supabase credentials missing on the server.");
     }
 
-    // Try selecting all active columns
     let selectFields = 'id, nama_penjual, alamat_penjual, jenis_ras, bobot_kg, harga, whatsapp_penjual, foto_url, status, created_at, kondisi_kesehatan, detail_kesehatan, status_harga, sudah_poel';
     let { data, error } = await supabase
       .from('penjualan_domba')
@@ -120,7 +224,7 @@ app.get('/api/market', async (req, res) => {
 
 /**
  * POST /api/market
- * Inserts a brand new listing. Validates mandatory fields and stores the photo as Base64 string.
+ * Inserts a brand new listing. Validates mandatory fields and credentials.
  */
 app.post('/api/market', async (req, res) => {
   try {
@@ -157,6 +261,21 @@ app.post('/api/market', async (req, res) => {
     }
     if (!pin_penjual || String(pin_penjual).trim() === '') {
       return res.status(400).json({ success: false, error: "PIN Keamanan wajib diisi." });
+    }
+
+    // Verify PIN matches registered account
+    const { data: account, error: authError } = await supabase
+      .from('akun_penjual')
+      .select('pin_penjual')
+      .eq('nama_penjual', String(nama_penjual).trim())
+      .single();
+
+    if (!authError && account) {
+      if (String(account.pin_penjual).trim() !== String(pin_penjual).trim()) {
+        return res.status(403).json({ success: false, error: "PIN Keamanan tidak cocok dengan akun terdaftar." });
+      }
+    } else if (authError && !authError.message.includes('relation "akun_penjual" does not exist') && authError.code !== 'PGRST116') {
+      return res.status(403).json({ success: false, error: "Penjual belum terdaftar. Silakan daftar akun terlebih dahulu." });
     }
 
     const sanitizedKondisi = kondisi_kesehatan || 'Sehat';
@@ -252,7 +371,7 @@ app.post('/api/market', async (req, res) => {
 
 /**
  * PUT /api/market/:id/status
- * Sets status to 'Terjual'. Validates owner PIN before executing.
+ * Sets status to 'Terjual'. Validates owner credentials before executing.
  */
 app.put('/api/market/:id/status', async (req, res) => {
   try {
@@ -260,7 +379,7 @@ app.put('/api/market/:id/status', async (req, res) => {
     const status = req.body.status || 'Terjual';
     const userPin = req.body.pin || req.query.pin;
 
-    // Fetch existing item to check PIN
+    // Fetch existing item to check identity
     const { data: item, error: getError } = await supabase
       .from('penjualan_domba')
       .select('*')
@@ -272,10 +391,23 @@ app.put('/api/market/:id/status', async (req, res) => {
       return res.status(404).json({ success: false, error: "Domba tidak ditemukan." });
     }
 
-    // Verify PIN if stored
-    if (item.pin_penjual !== undefined && item.pin_penjual !== null && String(item.pin_penjual).trim() !== '') {
-      if (!userPin || String(userPin).trim() !== String(item.pin_penjual).trim()) {
-        return res.status(403).json({ success: false, error: "PIN keamanan salah atau tidak disertakan." });
+    // Verify account registry pin
+    const { data: account, error: authError } = await supabase
+      .from('akun_penjual')
+      .select('pin_penjual')
+      .eq('nama_penjual', item.nama_penjual)
+      .single();
+
+    if (!authError && account) {
+      if (!userPin || String(userPin).trim() !== String(account.pin_penjual).trim()) {
+        return res.status(403).json({ success: false, error: "PIN keamanan salah atau tidak cocok dengan akun terdaftar." });
+      }
+    } else {
+      // Fallback verification against listing-level PIN
+      if (item.pin_penjual !== undefined && item.pin_penjual !== null && String(item.pin_penjual).trim() !== '') {
+        if (!userPin || String(userPin).trim() !== String(item.pin_penjual).trim()) {
+          return res.status(403).json({ success: false, error: "PIN keamanan salah." });
+        }
       }
     }
 
@@ -295,14 +427,14 @@ app.put('/api/market/:id/status', async (req, res) => {
 
 /**
  * DELETE /api/market/:id
- * Deletes a listing. Validates owner PIN before executing.
+ * Deletes a listing. Validates owner credentials before executing.
  */
 app.delete('/api/market/:id', async (req, res) => {
   try {
     const { id } = req.params;
     const userPin = req.body.pin || req.query.pin;
 
-    // Fetch existing item to check PIN
+    // Fetch existing item to check identity
     const { data: item, error: getError } = await supabase
       .from('penjualan_domba')
       .select('*')
@@ -314,10 +446,23 @@ app.delete('/api/market/:id', async (req, res) => {
       return res.status(404).json({ success: false, error: "Domba tidak ditemukan." });
     }
 
-    // Verify PIN if stored
-    if (item.pin_penjual !== undefined && item.pin_penjual !== null && String(item.pin_penjual).trim() !== '') {
-      if (!userPin || String(userPin).trim() !== String(item.pin_penjual).trim()) {
-        return res.status(403).json({ success: false, error: "PIN keamanan salah atau tidak disertakan." });
+    // Verify account registry pin
+    const { data: account, error: authError } = await supabase
+      .from('akun_penjual')
+      .select('pin_penjual')
+      .eq('nama_penjual', item.nama_penjual)
+      .single();
+
+    if (!authError && account) {
+      if (!userPin || String(userPin).trim() !== String(account.pin_penjual).trim()) {
+        return res.status(403).json({ success: false, error: "PIN keamanan salah atau tidak cocok dengan akun terdaftar." });
+      }
+    } else {
+      // Fallback verification against listing-level PIN
+      if (item.pin_penjual !== undefined && item.pin_penjual !== null && String(item.pin_penjual).trim() !== '') {
+        if (!userPin || String(userPin).trim() !== String(item.pin_penjual).trim()) {
+          return res.status(403).json({ success: false, error: "PIN keamanan salah." });
+        }
       }
     }
 
