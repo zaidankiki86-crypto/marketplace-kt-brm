@@ -46,10 +46,21 @@ app.get('/api/market', async (req, res) => {
     }
 
     // Try selecting all active columns
-    let selectFields = 'id, nama_penjual, alamat_penjual, jenis_ras, bobot_kg, harga, whatsapp_penjual, foto_url, status, created_at, kondisi_kesehatan, detail_kesehatan, status_harga';
+    let selectFields = 'id, nama_penjual, alamat_penjual, jenis_ras, bobot_kg, harga, whatsapp_penjual, foto_url, status, created_at, kondisi_kesehatan, detail_kesehatan, status_harga, sudah_poel';
     let { data, error } = await supabase
       .from('penjualan_domba')
       .select(selectFields);
+
+    // Fallback if sudah_poel column doesn't exist yet
+    if (error && error.message && error.message.includes('sudah_poel')) {
+      console.log("sudah_poel column not found, falling back...");
+      selectFields = 'id, nama_penjual, alamat_penjual, jenis_ras, bobot_kg, harga, whatsapp_penjual, foto_url, status, created_at, kondisi_kesehatan, detail_kesehatan, status_harga';
+      const retryResult = await supabase
+        .from('penjualan_domba')
+        .select(selectFields);
+      data = retryResult.data;
+      error = retryResult.error;
+    }
 
     // Fallback if status_harga column doesn't exist yet
     if (error && error.message && error.message.includes('status_harga')) {
@@ -127,7 +138,8 @@ app.post('/api/market', async (req, res) => {
       foto_url,
       kondisi_kesehatan,
       detail_kesehatan,
-      status_harga
+      status_harga,
+      sudah_poel
     } = req.body;
 
     if (!nama_penjual || String(nama_penjual).trim() === '') {
@@ -174,35 +186,45 @@ app.post('/api/market', async (req, res) => {
       status: 'Tersedia',
       kondisi_kesehatan: sanitizedKondisi,
       detail_kesehatan: sanitizedDetail,
-      status_harga: status_harga || 'Harga Pas'
+      status_harga: status_harga || 'Harga Pas',
+      sudah_poel: sudah_poel || 'Belum Poel'
     };
 
-    const { data, error } = await supabase
+    let result = await supabase
       .from('penjualan_domba')
       .insert([insertPayload])
       .select();
 
-    if (error) {
-      // Fallback if status_harga column is not migrated yet
-      if (error.message && error.message.includes('status_harga')) {
-        console.warn("status_harga column not found. Retrying insertion with basic schema...");
-        const fallbackPayload = { ...insertPayload };
-        delete fallbackPayload.status_harga;
-        
-        const fallbackResult = await supabase
-          .from('penjualan_domba')
-          .insert([fallbackPayload])
-          .select();
-          
-        if (fallbackResult.error) {
-          throw new Error(fallbackResult.error.message);
-        }
-        return res.status(201).json(fallbackResult.data[0]);
-      }
-      throw new Error(error.message);
+    // Fallback if sudah_poel column is not migrated yet
+    if (result.error && result.error.message && result.error.message.includes('sudah_poel')) {
+      console.warn("sudah_poel column not found. Retrying insertion without it...");
+      const fallbackPayload = { ...insertPayload };
+      delete fallbackPayload.sudah_poel;
+      
+      result = await supabase
+        .from('penjualan_domba')
+        .insert([fallbackPayload])
+        .select();
     }
 
-    res.status(201).json(data[0]);
+    // Fallback if status_harga column is not migrated yet
+    if (result.error && result.error.message && result.error.message.includes('status_harga')) {
+      console.warn("status_harga column not found. Retrying insertion without it...");
+      const fallbackPayload = { ...insertPayload };
+      delete fallbackPayload.status_harga;
+      delete fallbackPayload.sudah_poel;
+      
+      result = await supabase
+        .from('penjualan_domba')
+        .insert([fallbackPayload])
+        .select();
+    }
+
+    if (result.error) {
+      throw new Error(result.error.message);
+    }
+
+    res.status(201).json(result.data[0]);
   } catch (err) {
     console.error("POST /api/market error:", err.message);
     res.status(500).json({ success: false, error: err.message });
